@@ -1,0 +1,81 @@
+{% extends 'management/hospital/dashboard-base.html' %}
+{% load static %}
+
+    {% block title %}
+    <title>Dashboard</title>
+    {% endblock %}
+
+    {% block contain %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<div class="card card-success">
+    <div class="card-header">
+        <h3 class="card-title">Medical Reports Line Chart</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+    
+    <div class="card-body">
+        <canvas id="lineChart" style="min-height: 400px; width: 100%;"></canvas>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Parse the JSON data from the Django context
+        var chartData = JSON.parse('{{ line_chart_data|escapejs }}');
+
+        // Get the canvas element
+        var ctx = document.getElementById('lineChart').getContext('2d');
+
+        // Create the line chart using the parsed chartData
+        var lineChart = new Chart(ctx, {
+            type: 'line',
+            data: chartData,
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            parser: 'YYYY-MM-DD HH:mm:ss',
+                            tooltipFormat: 'll HH:mm:ss'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Datetime of Report Added'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Value'
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.dataset.label + ': ' + tooltipItem.raw.toFixed(1);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+
+  {% endblock %}
+
+  

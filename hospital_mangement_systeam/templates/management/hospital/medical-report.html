@@ -1,0 +1,216 @@
+{% extends 'management/hospital/dashboard-base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Madical Report</title>
+{% endblock %}
+
+
+{% block contain %}
+
+    <div class="card shadow position-relative">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Medical Reports</h6>
+            <div>
+                {% if request.user.role == 'Doctor' %}
+                <a href="#" class="btn btn-sm btn-primary shadow-sm" type="button" data-toggle="modal" data-target="#add_customer"><i
+                    class="fas fa-users fa-sm text-white-50 "></i> Add Report</a>
+                {% endif %}
+                <a href="{% url 'generate_report' id=patient.id %}" class="btn btn-sm btn-primary shadow-sm "><i
+                    class="fas fa-download fa-sm text-white-50 "></i> Generate Report</a>                
+            </div>
+        </div>
+
+
+        <div class="card-body ">
+            <div class="table-responsive all_customer">
+             
+                <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th >Sr. No</th>
+                            <th >Type </th>
+                            <th >Value </th>    
+                    
+                            <th class="customWidth">Action</th>
+                          </tr>
+                    </thead>
+                   
+                    <tbody>
+                        {% for report in reports %}
+                        <tr>                        
+                          <td>{{ forloop.counter }}</td>                          
+                          <td>{{ report.type }}</td>                          
+                          {% if report.type == 'Temperature' %}
+                          <td>{{ report.value }} °F</td>
+                          {% else %}
+                          <td>{{ report.value }} </td>
+                          {% endif %}
+                          <td>
+                            &nbsp;
+                            <a><button class="btn btn-danger" data-id = "{{ report.id }}" data-toggle="modal" data-target="#deleteModal-{{report.id}}"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                            </svg></button></a>
+                          </td>
+                        </tr>
+
+                        <div class="modal fade" id="deleteModal-{{report.id}}" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        {% if request.user.role == 'Doctor' %}
+                                        <h5 class="modal-title" id="exampleModalLabel">Delete Record</h5>
+                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true"></span>
+                                        </button>
+                                        {% endif %}
+                                    </div>
+                                    <div class="modal-body">Are you sure you want to delete Report.</div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary stock_class" type="button" data-dismiss="modal">Cancel</button>
+                                        <a class="btn btn-danger" href="{% url 'delete_report' id=report.id %}">Delete</a>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade addUsermodel" id="add_customer" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Create New Report</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <form class="user" method="post" action="{% url 'medical_reports' id=patient.id %}">
+                    {% csrf_token %}
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-2 form-input">
+                            <label for="exampleInputEmail1" class="form-label">Type</label>
+                            {{ form.type }}
+                        </div>
+                        
+                        <div class="col-sm-6 mb-2 form-input">
+                            <label for="exampleInputEmail1" class="form-label">Reading</label>
+                            {{ form.value }}
+                          <span id="error_phone" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="text-right mt-2">
+                        <button type="button" class="btn btn-danger stock_class" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>         
+                </form>
+            </div>
+        </div>
+        </div>
+    </div>
+
+</div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Record</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Are you sure you want to delete Asset Type.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary stock_class" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-danger" href="">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    
+    <script>
+        $("#id_gst_number").keyup(function(){
+        var gst_number = $("#id_gst_number").val();
+        var filter = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/; 
+        if (!filter.test(gst_number)) {
+        $("#error_gst").text("Not a valid GST");
+        gst_number.focus;
+        } else {
+        $("#error_gst").text("");
+        }
+        });
+    </script>
+
+    
+    <script>
+      // // check Email validation
+      $("#id_email").keyup(function(){
+        var email = $("#id_email").val();
+        var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+        if (!filter.test(email)) {
+        $("#error_email").text("It is not a valid email");
+        email.focus;
+        } else {
+        $("#error_email").text("");
+        }
+      });
+
+      // check contact number validation
+      $("#id_contact_number").keyup(function(){
+
+        var password = $("#id_contact_number").val();
+        var filter = /^[a-zA-Z0-9.,/ $@()]+$/;
+            
+        if ((password).length < 10 || (password).length > 10 ){
+        //alert('Please provid a valid email address');
+
+        $("#error_phone").text("Phone number should be in 10 digits");
+        password.focus;
+        //return false;
+        } else {
+        $("#error_phone").text("");
+        }
+      });
+      
+      // check Pan Number validation
+      $("#id_pan_number").keyup(function(){
+        var email = $("#id_pan_number").val();
+        var filter = /^([A-Z]){5}([0-9]){4}([A-Z]){1}?$/; 
+        if (!filter.test(email)) {
+        $("#error_pan").text("It is not a valid PAN");
+        email.focus;
+        } else {
+        $("#error_pan").text("");
+        }
+      });
+
+      // check PIN-CODE validation
+      $("#id_pin_code").keyup(function(){
+        var pin_code = $("#id_pin_code").val();
+        var filter = /^[1-9]{1}[0-9]{2}[0-9]{3}$/; 
+        if (!filter.test(pin_code)) {
+        $("#error_pin").text("It is not a valid PIN Code");
+        pin_code.focus;
+        } else {
+        $("#error_pin").text("");
+        }
+      });
+
+      $('.stock_class').click(function() {
+        location.reload();
+      });
+    </script>
+
+{% endblock %}

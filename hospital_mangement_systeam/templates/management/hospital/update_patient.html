@@ -1,0 +1,85 @@
+{% extends 'management/hospital/dashboard-base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Patient Update Page</title>
+{% endblock %}
+
+{% block contain %}
+<body class="bg-gradient-primary">
+
+    <div class="container cus-height">
+
+        <div class="card o-hidden border-0 shadow-lg ">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="p-5">
+                            <div class="text-center">
+                               
+                                <h1 class="h4 text-gray-900 mb-4">Update Patient</h1>
+                               
+                                {% if msg_danger %}
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>{{ msg_danger }}</strong> 
+                                    <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button> -->
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <form class="user" method="post">
+                                {% csrf_token %}    
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-4 form-input">
+                                        <label for="exampleInputEmail1" class="form-label">First Name</label>
+                                        {{ form.patient_first_name }}
+                                    </div>
+                            
+                                    <div class="col-sm-6 mb-4 form-input">
+                                        <label for="exampleInputEmail1" class="form-label">Last Name</label>
+                                        {{ form.patient_last_name }}
+                                        <span id="error_phone" class="text-danger"></span>
+                                    </div>
+                            
+                                    <div class="col-sm-6 mb-4 form-input">
+                                        <label for="exampleInputEmail1" class="form-label">Email</label>
+                                        {{ form.patient_email }}
+                                        <span id="error_phone" class="text-danger"></span>
+                                    </div>
+                            
+                                    <div class="col-sm-6 mb-4 form-input">
+                                        <label for="exampleInputEmail1" class="form-label">Phone</label>
+                                        {{ form.patient_phone_number }}
+                                        <span id="error_phone" class="text-danger"></span>
+                                    </div>
+                            
+                                    <div class="col-sm-6 mb-4 form-input">
+                                        <label for="exampleInputEmail1" class="form-label">Address</label>
+                                        {{ form.patient_address }}
+                                        <span id="error_phone" class="text-danger"></span>
+                                    </div>
+                            
+                                    <div class="col-sm-6 mb-4 form-input">
+                                        <label class="form-check-label">
+                                            {{ form.patient_status }}
+                                            Active Status
+                                        </label>
+                                    </div>
+                                </div>
+                            
+        
+                                <button class="btn btn-primary btn-user btn-block w-25 m-auto" data-toggle="modal" data-target="#exampleModal">Update Patient</button> 
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    
+</body>
+{% endblock %}

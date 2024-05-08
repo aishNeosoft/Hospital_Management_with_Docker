@@ -1,0 +1,112 @@
+{% extends 'management/hospital/dashboard-base.html' %}
+{% load static %}
+
+    {% block title %}
+    <title>Dashboard</title>
+    {% endblock %}
+
+    {% block contain %}
+    <style>
+     /* Styles for the container div */
+    .container {
+        display: flex; /* Use flexbox to arrange children horizontally */
+        justify-content: space-around; /* Distribute space evenly between children */
+        gap: 20px; /* Add space between the children */
+        flex-wrap: wrap; /* Allow flex items to wrap onto new lines if needed */
+    }
+
+    /* Styles for the patient-count-container */
+    .patient-count-container {
+        background-color: #181112; /* Blue background color */
+        color: #fff; /* White text color */
+        padding: 20px; /* Padding around the content */
+        border-radius: 8px; /* Rounded corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle elevation effect */
+        text-align: center; /* Center-align text */
+        max-width: 300px; /* Limit width to prevent stretching */
+        flex: 1; /* Allow items to grow and fill available space */
+    }
+
+    /* Heading style */
+    .patient-count-heading {
+        font-size: 24px; /* Larger font size for heading */
+        margin-bottom: 10px; /* Space below heading */
+    }
+  </style>
+
+
+   <div class="container">
+    <div class="patient-count-container">
+        <h2 class="patient-count-heading">Patient Count: {{ count }}</h2>
+        <!-- Additional content can be added here if needed -->
+    </div>
+    <div class="patient-count-container">
+      <a href="{% url 'show_reports_count' %}">
+        <h2 class="patient-count-heading">Reports Count: {{ report_count }}</h2>
+      </a>  
+      </div>
+</div>
+&nbsp;&nbsp;
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Render Pie Chart -->
+<div class="card card-danger">
+    <div class="card-header">
+        <h3 class="card-title">Counting Chart</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+    </div>
+</div>
+
+<!-- Render Bar Chart
+<div class="card card-success">
+    <div class="card-header">
+        <h3 class="card-title">Bar Chart</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+    {% for report_type, chart_data in line_chart_data.items %}
+    <h3>{{ report_type }}</h3>
+    <canvas id="lineChart-{{ forloop.counter }}" style="min-height: 400px; width: 100%;"></canvas>
+    <script>
+        var chartData = JSON.parse('{{ chart_data|safe }}');
+        var ctx = document.getElementById('lineChart-{{ forloop.counter }}').getContext('2d');
+        var lineChart = new Chart(ctx, {
+            type: 'line',
+            data: chartData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                }
+            }
+        });
+    </script>
+{% endfor %}
+</div>
+   -->
+  {% endblock %}
+
+  

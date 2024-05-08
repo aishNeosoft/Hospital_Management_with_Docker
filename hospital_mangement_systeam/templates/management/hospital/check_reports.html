@@ -1,0 +1,208 @@
+{% extends 'management/hospital/dashboard-base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Madical Report</title>
+{% endblock %}
+
+
+{% block contain %}
+
+    <div class="card shadow position-relative">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Medical Reports</h6>
+            {% comment %}
+            <div>
+                {% if request.user.role == 'Doctor' %}
+                <a href="#" class="btn btn-sm btn-primary shadow-sm" type="button" data-toggle="modal" data-target="#add_customer"><i
+                    class="fas fa-users fa-sm text-white-50 "></i> Add Report</a>
+                {% endif %}
+                <a href="" class="btn btn-sm btn-primary shadow-sm "><i
+                    class="fas fa-download fa-sm text-white-50 "></i> Generate Report</a>                
+            </div>
+            {% endcomment %}
+        </div>
+
+
+        <div class="card-body ">
+            <div class="table-responsive all_customer">
+             
+                <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th >Sr. No</th>
+                            <th >Type </th>
+                            <th >Count </th>    
+                    
+    
+                          </tr>
+                    </thead>
+                   
+                    <tbody>
+                        {% for report_type, report_count in report_count_dict.items %}
+                        <tr>                        
+                          <td>{{ forloop.counter }}</td>
+                          <td>{{ report_type }}</td>
+                          <td>{{ report_count }}</td>
+                        </tr>
+
+                        <div class="modal fade" id="deleteModal-{{report.id}}" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        {% if request.user.role == 'Doctor' %}
+                                        <h5 class="modal-title" id="exampleModalLabel">Delete Record</h5>
+                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true"></span>
+                                        </button>
+                                        {% endif %}
+                                    </div>
+                                    <div class="modal-body">Are you sure you want to delete Report.</div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary stock_class" type="button" data-dismiss="modal">Cancel</button>
+                                        <a class="btn btn-danger" href="">Delete</a>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade addUsermodel" id="add_customer" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Create New Report</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <form class="user" method="post" action="">
+                    {% csrf_token %}
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-2 form-input">
+                            <label for="exampleInputEmail1" class="form-label">Type</label>
+                            {{ form.type }}
+                        </div>
+                        
+                        <div class="col-sm-6 mb-2 form-input">
+                            <label for="exampleInputEmail1" class="form-label">Reading</label>
+                            {{ form.value }}
+                          <span id="error_phone" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="text-right mt-2">
+                        <button type="button" class="btn btn-danger stock_class" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>         
+                </form>
+            </div>
+        </div>
+        </div>
+    </div>
+
+</div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Record</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Are you sure you want to delete Asset Type.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary stock_class" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-danger" href="">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    
+    <script>
+        $("#id_gst_number").keyup(function(){
+        var gst_number = $("#id_gst_number").val();
+        var filter = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/; 
+        if (!filter.test(gst_number)) {
+        $("#error_gst").text("Not a valid GST");
+        gst_number.focus;
+        } else {
+        $("#error_gst").text("");
+        }
+        });
+    </script>
+
+    
+    <script>
+      // // check Email validation
+      $("#id_email").keyup(function(){
+        var email = $("#id_email").val();
+        var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+        if (!filter.test(email)) {
+        $("#error_email").text("It is not a valid email");
+        email.focus;
+        } else {
+        $("#error_email").text("");
+        }
+      });
+
+      // check contact number validation
+      $("#id_contact_number").keyup(function(){
+
+        var password = $("#id_contact_number").val();
+        var filter = /^[a-zA-Z0-9.,/ $@()]+$/;
+            
+        if ((password).length < 10 || (password).length > 10 ){
+        //alert('Please provid a valid email address');
+
+        $("#error_phone").text("Phone number should be in 10 digits");
+        password.focus;
+        //return false;
+        } else {
+        $("#error_phone").text("");
+        }
+      });
+      
+      // check Pan Number validation
+      $("#id_pan_number").keyup(function(){
+        var email = $("#id_pan_number").val();
+        var filter = /^([A-Z]){5}([0-9]){4}([A-Z]){1}?$/; 
+        if (!filter.test(email)) {
+        $("#error_pan").text("It is not a valid PAN");
+        email.focus;
+        } else {
+        $("#error_pan").text("");
+        }
+      });
+
+      // check PIN-CODE validation
+      $("#id_pin_code").keyup(function(){
+        var pin_code = $("#id_pin_code").val();
+        var filter = /^[1-9]{1}[0-9]{2}[0-9]{3}$/; 
+        if (!filter.test(pin_code)) {
+        $("#error_pin").text("It is not a valid PIN Code");
+        pin_code.focus;
+        } else {
+        $("#error_pin").text("");
+        }
+      });
+
+      $('.stock_class').click(function() {
+        location.reload();
+      });
+    </script>
+
+{% endblock %}
