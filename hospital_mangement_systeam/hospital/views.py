@@ -137,9 +137,8 @@ def sign_up_page(request):
             patient.patient_phone_number = phone
             patient.patient_email = email
             patient.save()
-
         return redirect('login')
-
+    
     return render(request, 'management/common/register-user.html')
 
 
@@ -176,7 +175,6 @@ def add_patient(request):
         patient.patient_status = status
         patient.save()
         return redirect('patient_listing') 
-    
     
     return render(request, 'management/Pages/add_patient.html')
 
@@ -232,6 +230,7 @@ def check_reports(request, id):
     if "msg1" in request.session:
         msg1 = request.session["msg1"]
         del request.session["msg1"]
+
     return render(request, 'management/hospital/medical-report.html', {'form': form, 'reports':medical_reports, 'patient':patient, "msg1":msg1})
 
 
@@ -275,6 +274,7 @@ def show_reports_count(request):
         .order_by('type')
     )
     report_count_dict = {item['type']: item['count'] for item in report_type_count}   
+    
     return render(request, 'management/hospital/check_reports.html', {'report_count_dict': report_count_dict})
 
 
