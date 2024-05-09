@@ -2,7 +2,7 @@ import json
 from decimal import Decimal
 from django.core.serializers.json import DjangoJSONEncoder
 
-from .models import *
+from .models import CustomUser, Doctor, Patient, MedicalReport
 
 def get_medical_report_data(patient):
     # Fetch all medical reports for the specified patient
@@ -18,8 +18,9 @@ def get_medical_report_data(patient):
                 'values': []
             }
         
+        recorded_date = report.recorded_at.date()
         # Append timestamp and value to the corresponding report type
-        report_data[report_type]['timestamps'].append(str(report.recorded_at))
+        report_data[report_type]['timestamps'].append(str(recorded_date))
         report_data[report_type]['values'].append(float(report.value))
     
     return report_data
@@ -60,7 +61,6 @@ def prepare_line_chart_data(patient):
     # Convert data to JSON format for JavaScript usage
     return json.dumps(chart_data, cls=DjangoJSONEncoder)
 
-
 #User Validation 
 def validate_user_registration(first_name, last_name, email, phone, password):
 
@@ -93,7 +93,6 @@ def validate_user_registration(first_name, last_name, email, phone, password):
         return 'Phone number should only contain digits'
     elif Patient.objects.filter(patient_phone_number=phone).exists() or Doctor.objects.filter(doctor_phone_number=phone).exists():
         return 'Phone number already exist'
-
 
     # Validate password
     if not password:

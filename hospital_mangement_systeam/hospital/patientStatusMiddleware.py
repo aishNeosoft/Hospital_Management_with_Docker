@@ -11,7 +11,6 @@ class PatientStatusMiddleware:
 
     def __call__(self, request):
         if request.user.is_authenticated:
-            # breakpoint()
             if hasattr(request.user, 'role') and request.user.role == 'Patient':
                 try:
                     patient = Patient.objects.get(patient_user=request.user)

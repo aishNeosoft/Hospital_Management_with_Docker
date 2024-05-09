@@ -1,5 +1,19 @@
 from django.urls import path
-from .views import *
+from .views import (login_page,
+                    add_patient,
+                    logout_page,
+                    sign_up_page,
+                    delete_report,
+                    check_reports,
+                    dashboard_page,
+                    update_patient,
+                    delete_patient,
+                    patient_listing,
+                    patient_dashboard,
+                    show_reports_count,
+                    only_check_reports,
+                    generate_report_csv,
+                    )
 
 
 urlpatterns = [

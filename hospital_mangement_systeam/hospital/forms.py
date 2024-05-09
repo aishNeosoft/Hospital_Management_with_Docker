@@ -2,7 +2,10 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import *
+from .models import (CustomUser, 
+                     Doctor, 
+                     Patient, 
+                     MedicalReport)
 
 
 ROLE_CHOICES = (
@@ -38,6 +41,7 @@ class NewUserForm(UserCreationForm):
             user.save()
         return user
     
+    
 class CustomUserSignupForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     role = forms.ChoiceField(choices=ROLE_CHOICES)
@@ -68,7 +72,6 @@ class PatientForm(forms.ModelForm):
     class Meta:
         model = Patient
         fields = ['patient_first_name', 'patient_last_name', 'patient_email', 'patient_phone_number', 'patient_address', 'patient_status']
-
 
 
 class MedicalReportForm(forms.ModelForm):

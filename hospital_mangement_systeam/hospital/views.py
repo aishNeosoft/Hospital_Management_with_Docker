@@ -14,8 +14,16 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 
 #Projects Imports
-from .forms import *
-from .utils import *
+from .utils import (check_value, 
+                    prepare_line_chart_data,
+                    validate_user_registration)
+
+from .forms import (Doctor,
+                    Patient, 
+                    CustomUser,
+                    PatientForm, 
+                    MedicalReport, 
+                    MedicalReportForm)
 
 
 # Dashboard Page
@@ -46,6 +54,7 @@ def dashboard_page(request):
         .filter(patient__patient_status=False)  
         .count()
     )
+
     active_data_json = json.dumps([active_reports_count, inactive_reports_count])
 
     patients = Patient.objects.all()
@@ -274,7 +283,7 @@ def show_reports_count(request):
         .order_by('type')
     )
     report_count_dict = {item['type']: item['count'] for item in report_type_count}   
-    
+
     return render(request, 'management/hospital/check_reports.html', {'report_count_dict': report_count_dict})
 
 
