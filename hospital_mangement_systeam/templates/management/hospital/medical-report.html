@@ -30,7 +30,8 @@
                         <tr>
                             <th >Sr. No</th>
                             <th >Type </th>
-                            <th >Value </th>    
+                            <th >Value </th>   
+                            <th >Created</th>
                     
                             <th class="customWidth">Action</th>
                           </tr>
@@ -46,6 +47,7 @@
                           {% else %}
                           <td>{{ report.value }} </td>
                           {% endif %}
+                          <td>{{ report.recorded_at }} </td>
                           <td>
                             &nbsp;
                             <a><button class="btn btn-danger" data-id = "{{ report.id }}" data-toggle="modal" data-target="#deleteModal-{{report.id}}"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">

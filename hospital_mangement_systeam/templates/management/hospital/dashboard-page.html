@@ -7,32 +7,33 @@
 
     {% block contain %}
     <style>
-     /* Styles for the container div */
-    .container {
-        display: flex; /* Use flexbox to arrange children horizontally */
-        justify-content: space-around; /* Distribute space evenly between children */
-        gap: 20px; /* Add space between the children */
-        flex-wrap: wrap; /* Allow flex items to wrap onto new lines if needed */
-    }
-
-    /* Styles for the patient-count-container */
-    .patient-count-container {
-        background-color: #181112; /* Blue background color */
-        color: #fff; /* White text color */
-        padding: 20px; /* Padding around the content */
-        border-radius: 8px; /* Rounded corners */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle elevation effect */
-        text-align: center; /* Center-align text */
-        max-width: 300px; /* Limit width to prevent stretching */
-        flex: 1; /* Allow items to grow and fill available space */
-    }
-
-    /* Heading style */
-    .patient-count-heading {
-        font-size: 24px; /* Larger font size for heading */
-        margin-bottom: 10px; /* Space below heading */
-    }
-  </style>
+        /* Styles for the container div */
+        .container {
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+    
+        /* Styles for the patient-count-container */
+        .patient-count-container {
+            background-color: #181112;
+            color: #fff;
+            padding: 12px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 200px;
+            flex: 1;
+        }
+    
+        /* Heading style */
+        .patient-count-heading {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+    </style>
+    
 
 
    <div class="container">
@@ -41,7 +42,7 @@
         <!-- Additional content can be added here if needed -->
     </div>
     <div class="patient-count-container">
-      <a href="{% url 'show_reports_count' %}">
+      <a href="{% url 'show_reports_count' %}" style="color: white; text-decoration: none;">
         <h2 class="patient-count-heading">Reports Count: {{ report_count }}</h2>
       </a>  
       </div>

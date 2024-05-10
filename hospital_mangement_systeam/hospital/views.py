@@ -160,6 +160,8 @@ def logout_page(request):
 # Doctors View
 @login_required(login_url='login')
 def add_patient(request):
+    patients = Patient.objects.all()
+    form = PatientForm()
     if request.method == 'POST':
         email = request.POST['patient_email']
         password = 'Pass@1234'
@@ -172,7 +174,7 @@ def add_patient(request):
 
         validate_user = validate_user_registration(first_name, last_name, email, phone, password)
         if validate_user != True:
-            return render(request, 'management/common/register-user.html', {'msg1':validate_user})
+            return render(request, 'management/hospital/patient_listing.html', {'msg1':validate_user,'patients':patients, 'form':form })
         user = CustomUser.objects.create_user(email=email, password=password, role=role)
 
         patient = Patient.objects.create(patient_user=user)
@@ -185,7 +187,7 @@ def add_patient(request):
         patient.save()
         return redirect('patient_listing') 
     
-    return render(request, 'management/Pages/add_patient.html')
+    return render(request, 'management/hospital/patient_listing.html')
 
 
 @login_required(login_url='login')

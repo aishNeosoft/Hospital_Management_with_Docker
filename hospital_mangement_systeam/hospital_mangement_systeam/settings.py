@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-!50hwh(n=+w!k=gw)-_*yeqoc6ax71fey^$v=b4^5d2*2mhyk9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', 'https://6642-103-224-241-11.ngrok-free.app']
+ALLOWED_HOSTS = ['*', 'https://0898-103-224-241-11.ngrok-free.app']
 
 
 # Application definition
@@ -57,7 +57,8 @@ ROOT_URLCONF = 'hospital_mangement_systeam.urls'
 
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8000',
-    'https://6642-103-224-241-11.ngrok-free.app'
+    'https://6642-103-224-241-11.ngrok-free.app',
+    'https://0898-103-224-241-11.ngrok-free.app',
 ]
 
 TEMPLATES = [
