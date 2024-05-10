@@ -3,11 +3,11 @@
 ## Description
 
 This project is a web application for a hospital management system where users can interact based on their roles. The system supports the following roles:
-
-- **Admin**: Manages overall system settings and user roles.
-- **Hospital**: Manages hospital-related information and settings.
-- **Doctor**: Adds and views medical records for patients.
-- **Patient**: Views personal medical reports and information.
+    ```bash
+    - **Admin**: Manages overall system settings and user roles.
+    - **Hospital**: Manages hospital-related information and settings.
+    - **Doctor**: Adds and views medical records for patients.
+    - **Patient**: Views personal medical reports and information.
 
 ### Features
 
