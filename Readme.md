@@ -51,3 +51,14 @@ To run this project using Docker, follow these steps:
    python manage.py runserver
 
 6. Make Your First signup with signUp page
+
+# Set up your Database Configuration with .env file
+
+1. Add all the configuration into .env file create your database and add into DB_DATABASE key
+   ```bash
+   DB_CONNECTION=mysql
+   DB_HOST= 'Your Host name' (default : 127.0.0.1)
+   DB_PORT= 'Your DB PORT'
+   DB_DATABASE= 'Your DB Name'
+   DB_USERNAME= 'Your DB Username'
+   DB_PASSWORD='Your DB Password'
