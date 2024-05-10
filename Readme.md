@@ -27,17 +27,28 @@ To run this project using Docker, follow these steps:
    docker-compose build web
 
 2. Run the project on "0.0.0.0:8000" server:
+   ```bash
    docker-compose up
 
 ## Running the Project on Django Server
 
 1. Make virtualenv venv and activate it
+   ```bash
+   virtualenv venv
+
 2. Check proper project directory
+
 3. install all the dependencies from requirements.txt:
-   - pip install -r requirements.txt
+   ```bash
+   pip install -r requirements.txt
+
 4. Create the migrations for database:
-   - python manage.py makemigrations
-   - python manage.py migrate
+   ```bash
+   python manage.py makemigrations
+   python manage.py migrate
+
 5. Run The server:
-   - python manage.py runserver
+   ```bash
+   python manage.py runserver
+
 6. Make Your First signup with signUp page
